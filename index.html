@@ -8,6 +8,7 @@
 </head>
 <body class="border-black border-4" >
 
+    <!--Top Logo  -->
     <div class="container-fluid bg-custom-red h-16 border-black border-b-4 flex justify-center">
         <div class="flex-3">
             <img class="h-16 pb-1" src="./assets/pokeball.png" alt="pokeball">
@@ -17,6 +18,9 @@
         </div>
     </div>
 
+
+
+<!-- Search and Buttons -->
 <div class="container-fluid hidden lg:block p-16">
     <div class="div flex">
     <div class="mb-6 flex mr-2">
@@ -58,7 +62,7 @@
     <div class="div flex-1 p-16">
         <div class="div flex">
         <div class="div flex-">
-        <h1  class="font-PottaOne text-black text-3xl"  >Info</h1>
+        <h1  class="font-PottaOne text-custom-red text-3xl"  >Info</h1>
         <h1 class="font-PottaOne text-black text-2xl pt-16" >Type:</h1>
         <h1  class="font-PottaOne text-black text-2xl pt-8" >Location:</h1>
         <h1  class="font-PottaOne text-black text-2xl pt-8" >Ablities:</h1>
@@ -66,7 +70,7 @@
         <h1  class="font-PottaOne text-black text-2xl pt-8" >Evolutions:</h1>
         </div>
         <div class="div flex-1 pl-28">
-            <h1  class="font-PottaOne text-black text-3xl"  >Info</h1>
+            <h1  class="font-PottaOne text-white text-3xl"  >Info</h1>
             <h1 class="font-PottaOne text-black text-2xl pt-16" >Type</h1>
             <h1  class="font-PottaOne text-black text-2xl pt-8" >Location</h1>
             <h1  class="font-PottaOne text-black text-2xl pt-8" >Ablities</h1>
@@ -80,9 +84,12 @@
 
 <div class="container-fluid hidden lg:block">
     <div class="div pb-2 flex justify-center">
-        <img id="favoriteBtn" class="h-32 w-32" src="./assets/pokeball.png" alt="AddtoFavBtn">
+        <button id="favoriteBtn">
+        <img  class="h-32 w-32" src="./assets/pokeball.png" alt="AddtoFavBtn">
+        <button>
     </div>
 </div>
+
 
 
  <!-- drawer component -->
@@ -109,7 +116,7 @@
  
 
 
-
+    <script src="./scripts/app.js"></script>
     <script src="/node_modules/flowbite/dist/flowbite.min.js"></script>
 </body>
 </html>
