@@ -15,3 +15,10 @@ inputSearch.addEventListener('keydown', async (event) => {
         console.log("Search works");
     }
 })
+
+searchBtn.addEventListener('click', async () => {
+    if(inputSearch.value)
+    {
+    console.log("Search btn works");
+    }
+});
