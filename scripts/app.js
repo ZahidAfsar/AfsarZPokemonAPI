@@ -10,6 +10,7 @@ let getFavoritesDiv = document.getElementById("getFavoritesDiv");
 let nameText = document.getElementById("nameText");
 let numText = document.getElementById("numText");
 let typeText = document.getElementById("typeText");
+let locationText = document.getElementById("locationText");
 let moveText = document.getElementById("moveText");
 let pokeImg = document.getElementById("pokeImg");
 
@@ -23,44 +24,72 @@ const pokemonApi = async (pokemon) => {
     return data;
 }
 
-const locationApi = async (pokemon) => {
-    const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/encounters`);
-    const data =  await promise.json();
+const getPokeImg = (pokemon) => {
+    return pokemon.sprites.other["official-artwork"].front_default;
+}
+
+
+const LocationAPI = async (pokemon2) => {
+    const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon2}/encounters`);
+    const data = await promise.json();
     console.log(data);
     return data;
-};
+}
 
-favoriteBtn.addEventListener('click', () => {
-    alert();
-    saveToLocalStorage(pokemon);
-});
 
 inputSearch.addEventListener('keydown', async (event) => {
     if(event.key === "Enter")
     {
         console.log("Search works");
         pokemon = await pokemonApi(event.target.value.toLowerCase());
-        pokemon2 = await locationApi(event.target.value.toLowerCase());
+        pokemon2 = await LocationAPI(event.target.value.toLowerCase());
         numText.textContent = pokemon.id;
         nameText.textContent = pokemon.name;
         typeText.textContent = pokemon.types[0].type.name;
         moveText.textContent = pokemon.moves[0].move.name;
+        // locationText.textContent = pokemon2[0].location_area.name;
+        if(!pokemon.length === 0){
+            locationText.textContent = `${pokemon2[0].location_area.name}`; 
+        }else{
+           locationText.textContent = 'Location Found: N/A';
+        }
+        pokeImg.src = pokemon.sprites.other["official-artwork"].front_default;
     }
-})
+});
 
 searchBtn.addEventListener('click', async () => {
     if(inputSearch.value)
     {
     console.log("Search btn works");
     pokemon = await pokemonApi(inputSearch.value.toLowerCase());
-    pokemon2 = await locationApi(inputSearch.value.toLowerCase());
+    // pokemon2 = await locationApi(inputSearch.value.toLowerCase());
     numText.textContent = pokemon.id;
     nameText.textContent = pokemon.name;
     typeText.textContent = pokemon.types[0].type.name;
     moveText.textContent = pokemon.move[0].move.name;
+    pokeImg.src = pokemon.sprites.other["official-artwork"].front_default;
+}
+});
+
+randomBtn.addEventListener('click', async () => {
+    let random = Math.floor(Math.random() * 1025) + 1;
+    pokemonApi(random);
+
+});
+
+
+pokeImg.addEventListener('click', async () => {
+    if(pokeImg.src == pokemon.sprites.other["official-artwork"].front_default){
+        pokeImg.src = pokemon.sprites.other["official-artwork"].front_shiny;
+    }else{
+        pokeImg.src = pokemon.sprites.other["official-artwork"].front_default;
     }
 });
 
+favoriteBtn.addEventListener('click', () => {
+    alert();
+    saveToLocalStorage(pokemon.name);
+});
 
 getFavoritesBtn.addEventListener('click', async () => {
     let favorites = getLocalStorage();
