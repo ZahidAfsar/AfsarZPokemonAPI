@@ -35,6 +35,7 @@ searchBtn.addEventListener('click', async () => {
     }
 })
 
+
 randomBtn.addEventListener('click', async () => {
     const randNum = Math.floor(Math.random() * 649) + 1;
     if (randNum)
@@ -58,7 +59,6 @@ inputSearch.addEventListener('keydown', async (event) => {
 });
 
 
-
 const LocationAPI = async (pokemon) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/encounters`);
     return await promise.json();
@@ -69,6 +69,10 @@ const pokemonApi = async (pokemon) => {
     pokeData = await promise.json();
 
     console.log(pokeData);
+
+    if(pokeData.id > 649){
+        alert("Gen 1 to 5")
+    }else{
 
     let pokemonNameText = pokeData.name;
     nameText.textContent = pokemonNameText.charAt(0).toUpperCase() + pokemonNameText.slice(1);
@@ -144,6 +148,7 @@ const pokemonApi = async (pokemon) => {
             evolutionDiv.append(div);
         });
     }
+}
 };
 
 pokemonApi('1');

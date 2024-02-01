@@ -66,6 +66,10 @@ const pokemonApi = async (pokemon) => {
     pokeData = await promise.json();
     console.log(pokeData);
 
+    if(pokeData.id > 649){
+        alert("Gen 1 to 5")
+    }else{
+
     let pokemonnameTextTablet = pokeData.name;
     nameTextTablet.textContent = pokemonnameTextTablet.charAt(0).toUpperCase() + pokemonnameTextTablet.slice(1);
 
@@ -140,6 +144,7 @@ const pokemonApi = async (pokemon) => {
             evolutionDivTablet.append(div);
         });
     }
+}
 };
 
 pokemonApi('1');
