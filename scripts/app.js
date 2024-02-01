@@ -76,7 +76,7 @@ const pokemonApi = async (pokemon) => {
     nameText.textContent = pokemonNameText.charAt(0).toUpperCase() + pokemonNameText.slice(1);
 
     const pokemonID = pokeData.id; 
-    numText.textContent = pokemonID;
+    numText.textContent = "#" + pokemonID;
 
     pokeImg.src = pokeData.sprites.other["official-artwork"].front_default;
    
@@ -166,14 +166,14 @@ pokeImg.addEventListener('click', async () => {
 
 favoriteBtn.addEventListener('click', () => {
     const favorites = getLocalStorage();
-    alert("Added to Favorites")
     if (favorites.includes(pokeData.name)) 
     {
         removeFromLocalStorage(pokeData.name);
+        alert("Removed Favorites")
 
     } else {
         saveToLocalStorage(pokeData.name);
-        
+        alert("Added to Favorites")
     }
 });
 

@@ -75,7 +75,7 @@ const pokemonApi = async (pokemon) => {
     nameTextMobile.textContent = pokemonnameTextMobile.charAt(0).toUpperCase() + pokemonnameTextMobile.slice(1);
 
     const pokemonID = pokeData.id; 
-    numTextMobile.textContent = pokemonID;
+    numTextMobile.textContent = "#" + pokemonID;
 
     pokeImgMobile.src = pokeData.sprites.other["official-artwork"].front_default;
    
@@ -162,12 +162,14 @@ pokeImgMobile.addEventListener('click', async () => {
 
 favoriteBtnMobile.addEventListener('click', () => {
     const favorites = getLocalStorage();
-    alert("Added to Favorites")
+    
     if (favorites.includes(pokeData.name)) 
     {
         removeFromLocalStorage(pokeData.name);
+        alert("Removed from Favorites")
     } else {
         saveToLocalStorage(pokeData.name);
+        alert("Added to Favorites");
     }
 });
 
