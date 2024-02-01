@@ -23,20 +23,21 @@ let pokeData;
 let pokeImgTabletDefault;
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    pokemonApi(1);
-});
-
-
 searchBtnTablet.addEventListener('click', async () => {
-    if (inputSearchTablet.value)
+    if(inputSearchTablet.value)
     {
-        currentPokemon = await pokemonApi(inputSearchTablet.value.toLowerCase());
+    const enteredValue = parseInt(inputSearchTablet.value.toLowerCase(), 10);
+        if (enteredValue > 650) {
+            alert("Please enter a pokemon gen 1 - 5");
+        } else {
+            currentPokemon = await pokemonApi(inputSearchTablet.value.toLowerCase());
+        }
     }
-});
+})
+
 
 randomBtnTablet.addEventListener('click', async () => {
-    const randNum = Math.floor(Math.random() * 649);
+    const randNum = Math.floor(Math.random() * 649) + 1;
     if (randNum)
     {
         currentPokemon = await pokemonApi(randNum);
@@ -45,13 +46,16 @@ randomBtnTablet.addEventListener('click', async () => {
 
 inputSearchTablet.addEventListener('keydown', async (event) => {
     if (inputSearchTablet.value) {
-        if (event.key === 'Enter')
-        {
-            currentPokemon = await pokemonApi(event.target.value.toLowerCase());
+        if (event.key === 'Enter') {
+            const enteredValue = parseInt(event.target.value.toLowerCase(), 10);
+            if (enteredValue > 650) {
+                alert("Please enter a pokemon gen 1 - 5");
+            } else {
+                currentPokemon = await pokemonApi(event.target.value.toLowerCase());
+            }
         }
     }
 });
-
 const LocationAPI = async (pokemon) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/encounters`);
     return await promise.json();
@@ -77,10 +81,11 @@ const pokemonApi = async (pokemon) => {
    
 
     let pokeLocationData = await LocationAPI(pokemon);
-    if (!pokeLocationData.length == 0) {
+    if (!pokeLocationData.length == 0) 
+    {
         locationTextTablet.textContent = formatText(pokeLocationData[0]["location_area"].name);
     } else {
-        locationTextTablet.textContent = "N/a";
+        locationTextTablet.textContent = "N/A";
     }
 
     let abilitiesArr = pokeData.abilities;
@@ -118,7 +123,7 @@ const pokemonApi = async (pokemon) => {
         evolutionDivTablet.innerHTML = "";
         evolutions2.map(async (pokemonName) => {
             const div = document.createElement('div');
-            div.className = (" font-PottaOne pr-5 overflow-y-auto");
+            div.className = (" font-PottaOne flex-grow px-5 text-center");
 
             const promise4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`);
             const imgData = await promise4.json();
@@ -137,6 +142,9 @@ const pokemonApi = async (pokemon) => {
     }
 };
 
+pokemonApi('1');
+LocationAPI('1');
+
 pokeImgTablet.addEventListener('click', async () => {
     if(pokeImgTablet.src == pokeData.sprites.other["official-artwork"].front_default){
         pokeImgTablet.src = pokeData.sprites.other["official-artwork"].front_shiny;
@@ -148,36 +156,40 @@ pokeImgTablet.addEventListener('click', async () => {
 favoriteBtnTablet.addEventListener('click', () => {
     const favorites = getLocalStorage();
     alert("Added to Favorites")
-    if (favorites.includes(pokeData.name)) {
+    if (favorites.includes(pokeData.name)) 
+    {
         removeFromLocalStorage(pokeData.name);
     } else {
         saveToLocalStorage(pokeData.name);
     }
 });
 
-getFavoritesBtnTablet.addEventListener('click', async () => {
+
+getFavoritesBtnTablet.addEventListener('click', () => {
     let favorites = getLocalStorage();
-    getFavoritesDivTablet.textContent = "";
-    favorites.map(pokemon => {
+    getFavoritesDivTablet.textContent = ""
 
-        let div = document.createElement('div');
-        div.textContent = pokemon;
-        div.className = "bg-yellow-300 rounded-lg font-PottaOne"
-        let p = document.createElement('p');
-        p.textContent = pokemon;
-        p.className = "text-lg font-medium text-gray-900 dark:text-white";
+    favorites.map(pkmnName => {
+        let div = document.createElement("div")
+        div.className = " px-[25px] bg-yellow-300 rounded-lg py-[35px] flex justify-between  items-center mt-[25px]  "
+
+        let p = document.createElement("p")
+        p.textContent = firstLetterFormat(pkmnName)
+        p.className = " ml-[30%] text-2xl text-center font-PottaOne text-black "
+
         let button = document.createElement('button');
-
         button.type = "button";
         button.textContent = "X"
-        button.classList.add(
-            "text-black","font-PottaOne","bg-transparent","hover:bg-gray-200","hover:text-gray-900","rounded-lg","text-sm","w-8","h-8","flex-1","justify-end","dark:hover:bg-gray-600","dark:hover:text-white");
+        button.classList.add("text-custom-red","bg-transparent","hover:bg-gray-200","hover:text-gray-900","rounded-lg","text-3xl","w-8", "h-8", "font-PottaOne","pl-[40px]","dark:hover:bg-gray-600","dark:hover:text-white","mr-9%" )
 
-            button.addEventListener('click', () => {
-                removeFromLocalStorage(pokemon);
-                div.remove();
-            });
-        div.append(button);
-        getFavoritesDivTablet.append(div);
+        button.addEventListener('click', () => {
+            removeFromLocalStorage(pkmnName);
+            div.remove();
+        })
+
+        div.appendChild(p)
+        div.appendChild(button)
+        getFavoritesDivTablet.appendChild(div)
     })
-});
+
+})

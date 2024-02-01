@@ -23,20 +23,21 @@ let pokeData;
 let pokeImgMobileDefault;
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    pokemonApi(1);
-});
-
-
 searchBtnMobile.addEventListener('click', async () => {
-    if (inputSearchMobile.value)
+    if(inputSearchMobile.value)
     {
-        currentPokemon = await pokemonApi(inputSearchMobile.value.toLowerCase());
+    const enteredValue = parseInt(inputSearchMobile.value.toLowerCase(), 10);
+        if (enteredValue > 650) {
+            alert("Please enter a pokemon gen 1 - 5");
+        } else {
+            currentPokemon = await pokemonApi(inputSearchMobile.value.toLowerCase());
+        }
     }
-});
+})
+
 
 randomBtnMobile.addEventListener('click', async () => {
-    const randNum = Math.floor(Math.random() * 649);
+    const randNum = Math.floor(Math.random() * 649) + 1;
     if (randNum)
     {
         currentPokemon = await pokemonApi(randNum);
@@ -45,9 +46,13 @@ randomBtnMobile.addEventListener('click', async () => {
 
 inputSearchMobile.addEventListener('keydown', async (event) => {
     if (inputSearchMobile.value) {
-        if (event.key === 'Enter')
-        {
-            currentPokemon = await pokemonApi(event.target.value.toLowerCase());
+        if (event.key === 'Enter') {
+            const enteredValue = parseInt(event.target.value.toLowerCase(), 10);
+            if (enteredValue > 650) {
+                alert("Please enter a pokemon gen 1 - 5");
+            } else {
+                currentPokemon = await pokemonApi(event.target.value.toLowerCase());
+            }
         }
     }
 });
@@ -77,7 +82,8 @@ const pokemonApi = async (pokemon) => {
    
 
     let pokeLocationData = await LocationAPI(pokemon);
-    if (!pokeLocationData.length == 0) {
+    if (!pokeLocationData.length == 0) 
+    {
         locationTextMobile.textContent = formatText(pokeLocationData[0]["location_area"].name);
     } else {
         locationTextMobile.textContent = "N/A";
@@ -118,7 +124,7 @@ const pokemonApi = async (pokemon) => {
         evolutionDivMobile.innerHTML = "";
         evolutions2.map(async (pokemonName) => {
             const div = document.createElement('div');
-            div.className = (" font-PottaOne pr-5 overflow-y-auto");
+            div.className = (" font-PottaOne text-center");
 
             const promise4 = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}/`);
             const imgData = await promise4.json();
@@ -137,6 +143,9 @@ const pokemonApi = async (pokemon) => {
     }
 };
 
+pokemonApi('1');
+LocationAPI('1');
+
 pokeImgMobile.addEventListener('click', async () => {
     if(pokeImgMobile.src == pokeData.sprites.other["official-artwork"].front_default){
         pokeImgMobile.src = pokeData.sprites.other["official-artwork"].front_shiny;
@@ -148,36 +157,40 @@ pokeImgMobile.addEventListener('click', async () => {
 favoriteBtnMobile.addEventListener('click', () => {
     const favorites = getLocalStorage();
     alert("Added to Favorites")
-    if (favorites.includes(pokeData.name)) {
+    if (favorites.includes(pokeData.name)) 
+    {
         removeFromLocalStorage(pokeData.name);
     } else {
         saveToLocalStorage(pokeData.name);
     }
 });
 
-getFavoritesBtnMobile.addEventListener('click', async () => {
+
+getFavoritesBtnMobile.addEventListener('click', () => {
     let favorites = getLocalStorage();
-    getFavoritesDivMobile.textContent = "";
-    favorites.map(pokemon => {
+    getFavoritesDivMobile.textContent = ""
 
-        let div = document.createElement('div');
-        div.textContent = pokemon;
-        div.className = "bg-yellow-300 rounded-lg font-PottaOne"
-        let p = document.createElement('p');
-        p.textContent = pokemon;
-        p.className = "text-lg font-medium text-gray-900 dark:text-white";
+    favorites.map(pkmnName => {
+        let div = document.createElement("div")
+        div.className = " px-[25px] bg-yellow-300 rounded-lg py-[35px] flex justify-between  items-center mt-[25px]  "
+
+        let p = document.createElement("p")
+        p.textContent = firstLetterFormat(pkmnName)
+        p.className = " ml-[30%] text-2xl text-center font-PottaOne text-black "
+
         let button = document.createElement('button');
-
         button.type = "button";
         button.textContent = "X"
-        button.classList.add(
-            "text-black","font-PottaOne","bg-transparent","hover:bg-gray-200","hover:text-gray-900","rounded-lg","text-sm","w-8","h-8","flex-1","justify-end","dark:hover:bg-gray-600","dark:hover:text-white");
+        button.classList.add("text-custom-red","bg-transparent","hover:bg-gray-200","hover:text-gray-900","rounded-lg","text-3xl","w-8", "h-8", "font-PottaOne","pl-[40px]","dark:hover:bg-gray-600","dark:hover:text-white","mr-9%" )
 
-            button.addEventListener('click', () => {
-                removeFromLocalStorage(pokemon);
-                div.remove();
-            });
-        div.append(button);
-        getFavoritesDivMobile.append(div);
+        button.addEventListener('click', () => {
+            removeFromLocalStorage(pkmnName);
+            div.remove();
+        })
+
+        div.appendChild(p)
+        div.appendChild(button)
+        getFavoritesDivMobile.appendChild(div)
     })
-});
+
+})
