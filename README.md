@@ -16,6 +16,6 @@ Show Evolutionary Paths, if pokemon doesn't have an evolutionary path, have it r
 And a Favorites list
 Fully Responsive using Tailwind CSS
 
-// Peer Reviewd By :
+// Peer Reviewd By : Jayvon Khuth
 
-// Peer Comment : 
+// Peer Comment : I tried breaking his website as best as I could but couldn't find any real bugs. His website looks great, I like how the theme of the website matches the pokemon theme very well. Also the website design looks very similar to the figma design, which is very good. Looking at his code too, I like how everything seems simple, nothing too complex, and also I liked how he used different js files for his mobile and tablet. The only minor nit picks I have are that even when you have a pokemon in your favorites and you remove it by hitting the favorite button again, it still gives an alert saying that the pokemon has been added to favorites. Also looking at the desktop design, the evolutions were in a vertical format, but in the figma it's a horizontal format, which I think would look a lot better. And one other minor thing is that the pokemon id doesn't have a #, but that's about it. Overall Great Job! Keep up the good work.
