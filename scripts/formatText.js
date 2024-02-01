@@ -1,10 +1,10 @@
-function firstLetterFormat(str) {
-    return str.charAt(0).toUpperCase() + str.slice(1);
+function firstLetterFormat(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function formatText(str) {
-    const words = str.split('-');
-    const capitalizedWords = words.map(word => word.charAt(0).toUpperCase() + word.slice(1));
+function formatText(string) {
+    const textString = string.split('-');
+    const capitalizedWords = textString.map(e => e.charAt(0).toUpperCase() + e.slice(1));
     return capitalizedWords.join(' ');
 }
 
