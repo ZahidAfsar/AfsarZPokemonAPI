@@ -2,25 +2,25 @@ import {saveToLocalStorage, getLocalStorage, removeFromLocalStorage} from "./loc
 import {firstLetterFormat, formatText} from "./formatText.js"
 
 
-let inputSearch = document.getElementById("inputSearch");
-let searchBtn = document.getElementById("searchBtn");
-let randomBtn = document.getElementById("randomBtn");
-let favoriteBtn = document.getElementById("favoriteBtn");
-let getFavoritesBtn = document.getElementById("getFavoritesBtn");
-let getFavoritesDiv = document.getElementById("getFavoritesDiv");
-let nameText = document.getElementById("nameText");
-let numText = document.getElementById("numText");
-let typeText = document.getElementById("typeText");
-let locationText = document.getElementById("locationText");
-let moveText = document.getElementById("moveText");
-let pokeImg = document.getElementById("pokeImg");
-let abilitiesText = document.getElementById("abilitiesText");
-let evolutionDiv = document.getElementById("evolutionDiv");
+let inputSearchMobile = document.getElementById("inputSearchMobile");
+let searchBtnMobile = document.getElementById("searchBtnMobile");
+let randomBtnMobile = document.getElementById("randomBtnMobile");
+let favoriteBtnMobile = document.getElementById("favoriteBtnMobile");
+let getFavoritesBtnMobile = document.getElementById("getFavoritesBtnMobile");
+let getFavoritesDivMobile = document.getElementById("getFavoritesDivMobile");
+let nameTextMobile = document.getElementById("nameTextMobile");
+let numTextMobile = document.getElementById("numTextMobile");
+let typeTextMobile = document.getElementById("typeTextMobile");
+let locationTextMobile = document.getElementById("locationTextMobile");
+let moveTextMobile = document.getElementById("moveTextMobile");
+let pokeImgMobile = document.getElementById("pokeImgMobile");
+let abilitiesTextMobile = document.getElementById("abilitiesTextMobile");
+let evolutionDivMobile = document.getElementById("evolutionDivMobile");
 
 
 let currentPokemon;
 let pokeData;
-let pokeImgDefault;
+let pokeImgMobileDefault;
 
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -28,14 +28,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-searchBtn.addEventListener('click', async () => {
-    if (inputSearch.value)
+searchBtnMobile.addEventListener('click', async () => {
+    if (inputSearchMobile.value)
     {
-        currentPokemon = await pokemonApi(inputSearch.value.toLowerCase());
+        currentPokemon = await pokemonApi(inputSearchMobile.value.toLowerCase());
     }
 });
 
-randomBtn.addEventListener('click', async () => {
+randomBtnMobile.addEventListener('click', async () => {
     const randNum = Math.floor(Math.random() * 649);
     if (randNum)
     {
@@ -43,8 +43,8 @@ randomBtn.addEventListener('click', async () => {
     }
 });
 
-inputSearch.addEventListener('keydown', async (event) => {
-    if (inputSearch.value) {
+inputSearchMobile.addEventListener('keydown', async (event) => {
+    if (inputSearchMobile.value) {
         if (event.key === 'Enter')
         {
             currentPokemon = await pokemonApi(event.target.value.toLowerCase());
@@ -62,35 +62,35 @@ const pokemonApi = async (pokemon) => {
     pokeData = await promise.json();
     console.log(pokeData);
 
-    let pokemonNameText = pokeData.name;
-    nameText.textContent = pokemonNameText.charAt(0).toUpperCase() + pokemonNameText.slice(1);
+    let pokemonnameTextMobile = pokeData.name;
+    nameTextMobile.textContent = pokemonnameTextMobile.charAt(0).toUpperCase() + pokemonnameTextMobile.slice(1);
 
     const pokemonID = pokeData.id; 
-    numText.textContent = pokemonID;
+    numTextMobile.textContent = pokemonID;
 
-    pokeImg.src = pokeData.sprites.other["official-artwork"].front_default;
+    pokeImgMobile.src = pokeData.sprites.other["official-artwork"].front_default;
    
     let TypesArr = pokeData.types;
     let pokeTypes = TypesArr.map(e => e.type.name);
-    typeText.textContent = pokeTypes.join(", ");
-    typeText.textContent = pokeTypes.map(firstLetterFormat).join(", ");
+    typeTextMobile.textContent = pokeTypes.join(", ");
+    typeTextMobile.textContent = pokeTypes.map(firstLetterFormat).join(", ");
    
 
     let pokeLocationData = await LocationAPI(pokemon);
     if (!pokeLocationData.length == 0) {
-        locationText.textContent = formatText(pokeLocationData[0]["location_area"].name);
+        locationTextMobile.textContent = formatText(pokeLocationData[0]["location_area"].name);
     } else {
-        locationText.textContent = "N/a";
+        locationTextMobile.textContent = "N/A";
     }
 
     let abilitiesArr = pokeData.abilities;
     const pokeAbilities = abilitiesArr.map(e => firstLetterFormat(e.ability.name));
-    abilities.textContent = pokeAbilities.join(", ");
+    abilitiesMobile.textContent = pokeAbilities.join(", ");
 
 
     const MovesArr = pokeData.moves;
     const pokemonMoves = MovesArr.map(e => firstLetterFormat(e.move.name));
-    moveText.textContent = pokemonMoves.join(", ");
+    moveTextMobile.textContent = pokemonMoves.join(", ");
 
     const promise2 = await fetch(`${pokeData.species.url}`);
     const speciesPokemon = await promise2.json();
@@ -101,7 +101,7 @@ const pokemonApi = async (pokemon) => {
     
 
     if (PokemonEvolution.chain.evolves_to.length === 0) {
-        evolutionDiv.textContent = "N/A";
+        evolutionDivMobile.textContent = "N/A";
     } else {
         
         const evolutions2 = [PokemonEvolution.chain.species.name];
@@ -115,7 +115,7 @@ const pokemonApi = async (pokemon) => {
         };
         evolutions1(PokemonEvolution.chain);
 
-        evolutionDiv.innerHTML = "";
+        evolutionDivMobile.innerHTML = "";
         evolutions2.map(async (pokemonName) => {
             const div = document.createElement('div');
             div.className = (" font-PottaOne pr-5 overflow-y-auto");
@@ -132,20 +132,20 @@ const pokemonApi = async (pokemon) => {
             div.append(imgPicPokemon);
             div.append(p);
 
-            evolutionDiv.append(div);
+            evolutionDivMobile.append(div);
         });
     }
 };
 
-pokeImg.addEventListener('click', async () => {
-    if(pokeImg.src == pokeData.sprites.other["official-artwork"].front_default){
-        pokeImg.src = pokeData.sprites.other["official-artwork"].front_shiny;
+pokeImgMobile.addEventListener('click', async () => {
+    if(pokeImgMobile.src == pokeData.sprites.other["official-artwork"].front_default){
+        pokeImgMobile.src = pokeData.sprites.other["official-artwork"].front_shiny;
     }else{
-        pokeImg.src = pokeData.sprites.other["official-artwork"].front_default;
+        pokeImgMobile.src = pokeData.sprites.other["official-artwork"].front_default;
     }
 });
 
-favoriteBtn.addEventListener('click', () => {
+favoriteBtnMobile.addEventListener('click', () => {
     const favorites = getLocalStorage();
     alert("Added to Favorites")
     if (favorites.includes(pokeData.name)) {
@@ -155,9 +155,9 @@ favoriteBtn.addEventListener('click', () => {
     }
 });
 
-getFavoritesBtn.addEventListener('click', async () => {
+getFavoritesBtnMobile.addEventListener('click', async () => {
     let favorites = getLocalStorage();
-    getFavoritesDiv.textContent = "";
+    getFavoritesDivMobile.textContent = "";
     favorites.map(pokemon => {
 
         let div = document.createElement('div');
@@ -178,27 +178,6 @@ getFavoritesBtn.addEventListener('click', async () => {
                 div.remove();
             });
         div.append(button);
-        getFavoritesDiv.append(div);
+        getFavoritesDivMobile.append(div);
     })
 });
-
-
-// pokemon colors 
-// Normal Type: #A8A77A
-// Fire Type: #EE8130
-// Water Type: #6390F0
-// Electric Type: #F7D02C
-// Grass Type: #7AC74C
-// Ice Type: #96D9D6
-// Fighting Type: #C22E28
-// Poison Type: #A33EA1
-// Ground Type: #E2BF65
-// Flying Type: #A98FF3
-// Psychic Type: #F95587
-// Bug Type: #A6B91A
-// Rock Type: #B6A136
-// Ghost Type: #735797
-// Dragon Type: #6F35FC
-// Dark Type: #705746
-// Steel Type: #B7B7CE
-// Fairy Type: #D685AD
