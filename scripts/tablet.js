@@ -64,7 +64,6 @@ const LocationAPI = async (pokemon) => {
 const pokemonApi = async (pokemon) => {
     const promise = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemon}/`);
     pokeData = await promise.json();
-    console.log(pokeData);
 
     if(pokeData.id > 649){
         alert("Gen 1 to 5")
@@ -113,16 +112,19 @@ const pokemonApi = async (pokemon) => {
         evolutionDivTablet.textContent = "N/A";
     } else {
         
-        const evolutions2 = [PokemonEvolution.chain.species.name];
+    const evolutions2 = [PokemonEvolution.chain.species.name];
         
-        const evolutions1 = (chain) => {
-            if (chain.evolves_to.length === 0) return;
+    const evolutions1 = (chain) => {
+            if (chain.evolves_to.length === 0)
+            {
+                return;
+            }
             chain.evolves_to.forEach((evolution) => {
                 evolutions2.push(evolution.species.name);
                 evolutions1(evolution);
             });
         };
-        evolutions1(PokemonEvolution.chain);
+    evolutions1(PokemonEvolution.chain);
 
         evolutionDivTablet.innerHTML = "";
         evolutions2.map(async (pokemonName) => {

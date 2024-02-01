@@ -113,17 +113,18 @@ const pokemonApi = async (pokemon) => {
     if (PokemonEvolution.chain.evolves_to.length === 0) {
         evolutionDivMobile.textContent = "N/A";
     } else {
-        
         const evolutions2 = [PokemonEvolution.chain.species.name];
-        
         const evolutions1 = (chain) => {
-            if (chain.evolves_to.length === 0) return;
+            if (chain.evolves_to.length === 0)
+            {
+             return;
+            }
             chain.evolves_to.forEach((evolution) => {
                 evolutions2.push(evolution.species.name);
                 evolutions1(evolution);
             });
         };
-        evolutions1(PokemonEvolution.chain);
+    evolutions1(PokemonEvolution.chain);
 
         evolutionDivMobile.innerHTML = "";
         evolutions2.map(async (pokemonName) => {
